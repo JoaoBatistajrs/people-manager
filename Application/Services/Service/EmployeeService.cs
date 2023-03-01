@@ -4,48 +4,57 @@ using AutoMapper;
 using Domain.Interfaces.Repositories;
 using Domain.Models;
 
-namespace Application.Services.Service
+namespace Application.Services.Service;
+
+public class EmployeeService : IEmployeeService
 {
-    public class EmployeeService : IEmployeeService
+    public readonly IEmployeeRepository _employeeRepository;
+    public readonly IEmployeeLogService _employeeLogService;
+    private readonly IMapper _mapper;
+
+    public EmployeeService(IEmployeeRepository employeeRepository, IMapper mapper, IEmployeeLogService employeeLogService)
     {
-        public readonly IEmployeeRepository _employeeRepository;
-        private readonly IMapper _mapper;
+        _employeeRepository = employeeRepository;
+        _mapper = mapper;
+        _employeeLogService = employeeLogService;
+    }
 
-        public EmployeeService(IEmployeeRepository employeeRepository, IMapper mapper)
-        {
-            _employeeRepository = employeeRepository;
-            _mapper = mapper;
-        }
+    public int Create(EmployeeDto eployeeDto)
+    {
+        var employee = _mapper.Map<Employee>(eployeeDto);
 
-        public int Create(EmployeeDto eployeeDto)
-        {
-            var venda = _mapper.Map<Employee>(eployeeDto);
+        var employeeBD = _employeeRepository.Create(employee);
 
-            var vendaSalva = _employeeRepository.Create(venda);
+        _employeeLogService.Create(eployeeDto);
 
-            return vendaSalva;
-        }
+        return employeeBD;
+    }
 
-        public void Delete(int id)
-        {
-            _employeeRepository.Delete(id);
-        }
+    public void Delete(int id)
+    {
+        var employeeBD = _employeeRepository.GetById(id);
+        var employeeDto = _mapper.Map<EmployeeDto>(employeeBD);
 
-        public EmployeeDto GetById(int id)
-        {
-            var employeeBD = _employeeRepository.GetById(id);
-            var employeeDto = _mapper.Map<EmployeeDto>(employeeBD);
+        _employeeRepository.Delete(id);
+        _employeeLogService.Delete(employeeDto);
+    }
 
-            return employeeDto;
-        }
+    public EmployeeDto GetById(int id)
+    {
+        var employeeBD = _employeeRepository.GetById(id);
+        var employeeDto = _mapper.Map<EmployeeDto>(employeeBD);
 
-        public EmployeeDto Update(int id, EmployeeDto employeeDto)
-        {
-            var employee = _mapper.Map<Employee>(employeeDto);
-   
-            var employeeUpdated = _employeeRepository.Update(id, employee);
+        return employeeDto;
+    }
 
-            return _mapper.Map<EmployeeDto>(employeeUpdated);
-        }
+    public EmployeeDto Update(int id, EmployeeDto employeeDto)
+    {
+        var employee = _mapper.Map<Employee>(employeeDto);
+
+        var employeeUpdated = _employeeRepository.Update(id, employee);
+
+        _employeeLogService.Update(employeeDto);
+
+        return _mapper.Map<EmployeeDto>(employeeUpdated);
     }
 }

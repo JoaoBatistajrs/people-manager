@@ -2,66 +2,65 @@
 using Application.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace people_manager.Controllers
+namespace people_manager.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class EmployeeController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class EmployeeController : ControllerBase
+    public readonly IEmployeeService _employeeService;
+
+    public EmployeeController(IEmployeeService employeeService)
     {
-        public readonly IEmployeeService _employeeService;
+        _employeeService = employeeService;
+    }
 
-        public EmployeeController(IEmployeeService employeeService)
-        {
-            _employeeService = employeeService;
-        }
+    [HttpPost]
+    public IActionResult Create(EmployeeDto employeeDto)
+    {
+        if(employeeDto.Equals(null))
+            return BadRequest();
 
-        [HttpPost]
-        public IActionResult Create(EmployeeDto employeeDto)
-        {
-            if(employeeDto.Equals(null))
-                return BadRequest();
+        var employee = _employeeService.Create(employeeDto);
 
-            var employee = _employeeService.Create(employeeDto);
+        return Ok(employee);
+    }
 
-            return Ok(employee);
-        }
+    [HttpGet]
+    [Route("{id}")]
+    public IActionResult GetById(int id)
+    {
+        var result = _employeeService.GetById(id);
 
-        [HttpGet]
-        [Route("{id}")]
-        public IActionResult GetById(int id)
-        {
-            var result = _employeeService.GetById(id);
+        if (result == null)
+            return NotFound();
 
-            if (result == null)
-                return NotFound();
+        return Ok(result);
+    }
 
-            return Ok(result);
-        }
+    [HttpPut]
+    [Route("{id}")]
+    public IActionResult UpdateById(int id, EmployeeDto employeeDto)
+    {
+        var result = _employeeService.Update(id, employeeDto);
 
-        [HttpPut]
-        [Route("{id}")]
-        public IActionResult UpdateById(int id, EmployeeDto employeeDto)
-        {
-            var result = _employeeService.Update(id, employeeDto);
+        if (result == null)
+            return NotFound();
 
-            if (result == null)
-                return NotFound();
+        return Ok(result);
+    }
 
-            return Ok(result);
-        }
+    [HttpDelete]
+    [Route("{id}")]
+    public IActionResult UpdateById(int id)
+    {
+        var result = _employeeService.GetById(id);
 
-        [HttpDelete]
-        [Route("{id}")]
-        public IActionResult UpdateById(int id)
-        {
-            var result = _employeeService.GetById(id);
+        if (result == null)
+            return NotFound();
 
-            if (result == null)
-                return NotFound();
+        _employeeService.Delete(result.Id);
 
-            _employeeService.Delete(result.Id);
-
-            return NoContent();
-        }
+        return NoContent();
     }
 }

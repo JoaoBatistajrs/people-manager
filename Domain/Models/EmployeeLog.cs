@@ -1,13 +1,13 @@
-﻿using Domain.Enums;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Table;
+﻿using Azure;
+using Azure.Data.Tables;
+using Domain.Enums;
+
 using System.Text.Json;
 
 namespace Domain.Models;
 
 public class EmployeeLog : Employee, ITableEntity
 {
-
     public EmployeeLog(Employee employee, LogAction logAction, string partitionKey, string rowKey)
     {
         base.Id = employee.Id ;
@@ -28,16 +28,6 @@ public class EmployeeLog : Employee, ITableEntity
     public string JSON { get; set; }
     public string PartitionKey { get; set; }
     public string RowKey { get; set; }
-    DateTimeOffset ITableEntity.Timestamp { get; set; }
-    string ITableEntity.ETag { get; set; }
-
-    public void ReadEntity(IDictionary<string, EntityProperty> properties, OperationContext operationContext)
-    {
-        throw new NotImplementedException();
-    }
-
-    public IDictionary<string, EntityProperty> WriteEntity(OperationContext operationContext)
-    {
-        throw new NotImplementedException();
-    }
+    DateTimeOffset? ITableEntity.Timestamp { get; set; }
+    ETag ITableEntity.ETag { get; set; }
 }
