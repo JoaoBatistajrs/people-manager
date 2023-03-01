@@ -18,7 +18,7 @@ A sua aplicação deverá armazenar os logs de todas as alterações que venha a
 
 A sua classe principal, a classe Funcionario e a FuncionarioLog, deve ser a seguinte:
 
-![Diagrama da classe Funcionario](Imagens/diagrama_classe.png)
+![image](https://user-images.githubusercontent.com/83888497/222131916-e9fe781a-b3e8-4b00-9ef4-2d8c89c98f18.png)
 
 A classe FuncionarioLog é filha da classe Funcionario, pois o log terá as mesmas informações da Funcionario.
 
@@ -31,7 +31,7 @@ Não se esqueça de gerar a sua migration para atualização no banco de dados.
 **Swagger**
 
 
-![Métodos Swagger](Imagens/swagger.png)
+![image](https://user-images.githubusercontent.com/83888497/222132042-79ac7937-18a7-45a5-991e-94cd1c7002da.png)
 
 
 **Endpoints**
@@ -61,4 +61,4 @@ Esse é o schema (model) de Funcionario, utilizado para passar para os métodos 
 ## Ambiente
 Este é um diagrama do ambiente que deverá ser montado no Microsoft Azure, utilizando o App Service para a API, SQL Database para o banco relacional e Azure Table para armazenar os logs.
 
-![Diagrama da classe Funcionario](Imagens/diagrama_api.png)
+![image](https://user-images.githubusercontent.com/83888497/222132095-74e63053-dfd8-47b1-8e14-07511ce45650.png)
