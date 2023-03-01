@@ -2,7 +2,7 @@
 
 namespace Domain.Interfaces.Repositories;
 
-public interface IEployeeRepository
+public interface IEmployeeRepository
 {
     Employee GetById(int id);
     int Create(Employee employee);

@@ -4,7 +4,7 @@ using Infrastructure.Context;
 
 namespace Infrastructure.Repositories
 {
-    public class EmployeeRepository : IEployeeRepository
+    public class EmployeeRepository : IEmployeeRepository
     {
         private readonly EmployeeContext _context;
 
