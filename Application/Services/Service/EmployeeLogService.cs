@@ -16,7 +16,7 @@ public class EmployeeLogService : IEmployeeLogService
     public EmployeeLogService(IMapper mapper, IConfiguration configuration)
     {
         _mapper = mapper;
-        _connectionString = configuration.GetConnectionString("EmployeeApiConnectionString");
+        _connectionString = configuration.GetConnectionString("SAConnectionString");
         _tableName = configuration.GetConnectionString("EmployeeLog");
     }
 

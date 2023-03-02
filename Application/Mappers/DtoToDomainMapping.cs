@@ -2,13 +2,12 @@
 using AutoMapper;
 using Domain.Models;
 
-namespace Application.Mapper
+namespace Application.Mapper;
+
+public class DtoToDomainMapping : Profile
 {
-    public class DtoToDomainMapping : Profile
+    public DtoToDomainMapping()
     {
-        public DtoToDomainMapping()
-        {
-            CreateMap<EmployeeDto, Employee>();
-        }
+        CreateMap<EmployeeDto, Employee>();
     }
 }

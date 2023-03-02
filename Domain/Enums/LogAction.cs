@@ -1,9 +1,8 @@
-﻿namespace Domain.Enums
+﻿namespace Domain.Enums;
+
+public enum LogAction
 {
-    public enum LogAction
-    {
-        New,
-        Updated,
-        Deleted
-    }
+    New,
+    Updated,
+    Deleted
 }
