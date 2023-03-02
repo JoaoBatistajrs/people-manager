@@ -1,6 +1,7 @@
 ﻿using Application.Dtos;
 using Application.Services.Interfaces;
 using AutoMapper;
+using Domain.Enums;
 using Domain.Interfaces.Repositories;
 using Domain.Models;
 
@@ -19,13 +20,13 @@ public class EmployeeService : IEmployeeService
         _employeeLogService = employeeLogService;
     }
 
-    public int Create(EmployeeDto eployeeDto)
+    public int Create(EmployeeDto employeeDto)
     {
-        var employee = _mapper.Map<Employee>(eployeeDto);
+        var employee = _mapper.Map<Employee>(employeeDto);
 
         var employeeBD = _employeeRepository.Create(employee);
 
-        _employeeLogService.Create(eployeeDto);
+        _employeeLogService.CreateLog(employeeDto, LogAction.New);
 
         return employeeBD;
     }
@@ -36,7 +37,7 @@ public class EmployeeService : IEmployeeService
         var employeeDto = _mapper.Map<EmployeeDto>(employeeBD);
 
         _employeeRepository.Delete(id);
-        _employeeLogService.Delete(employeeDto);
+        _employeeLogService.CreateLog(employeeDto, LogAction.Deleted);
     }
 
     public EmployeeDto GetById(int id)
@@ -53,7 +54,7 @@ public class EmployeeService : IEmployeeService
 
         var employeeUpdated = _employeeRepository.Update(id, employee);
 
-        _employeeLogService.Update(employeeDto);
+        _employeeLogService.CreateLog(employeeDto, LogAction.Updated);
 
         return _mapper.Map<EmployeeDto>(employeeUpdated);
     }

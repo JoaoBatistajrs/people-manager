@@ -4,6 +4,7 @@ using AutoMapper;
 using Microsoft.Extensions.Configuration;
 using Azure.Data.Tables;
 using Application.Services.Interfaces;
+using Domain.Enums;
 
 namespace Application.Services.Service;
 
@@ -29,35 +30,13 @@ public class EmployeeLogService : IEmployeeLogService
         return tableClient;
     }
 
-    public void Create(EmployeeDto employeeDto)
+    public void CreateLog(EmployeeDto employeeDto, LogAction logAction)
     {
         var tableClient = GetTableClient();
         var employee = _mapper.Map<Employee>(employeeDto);
         var partitionKey = Guid.NewGuid().ToString();
 
-        var employeeLog = new EmployeeLog(employee, Domain.Enums.LogAction.New, partitionKey, employeeDto.Department);
-
-        tableClient.UpsertEntity(employeeLog);
-    }
-
-    public void Update(EmployeeDto employeeDto)
-    {
-        var tableClient = GetTableClient();
-        var employee = _mapper.Map<Employee>(employeeDto);
-        var partitionKey = Guid.NewGuid().ToString();
-
-        var employeeLog = new EmployeeLog(employee, Domain.Enums.LogAction.Updated, partitionKey, employeeDto.Department);
-
-        tableClient.UpsertEntity(employeeLog);
-    }
-
-    public void Delete(EmployeeDto employeeDto)
-    {
-        var tableClient = GetTableClient();
-        var employee = _mapper.Map<Employee>(employeeDto);
-        var partitionKey = Guid.NewGuid().ToString();
-
-        var employeeLog = new EmployeeLog(employee, Domain.Enums.LogAction.Deleted, partitionKey, employeeDto.Department);
+        var employeeLog = new EmployeeLog(employee, logAction, partitionKey, employeeDto.Department);
 
         tableClient.UpsertEntity(employeeLog);
     }

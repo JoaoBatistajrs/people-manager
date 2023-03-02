@@ -1,10 +1,9 @@
 ﻿using Application.Dtos;
+using Domain.Enums;
 
 namespace Application.Services.Interfaces;
 
 public interface IEmployeeLogService
 {
-    void Create(EmployeeDto employeeDto);
-    void Update(EmployeeDto employeeDto);
-    void Delete(EmployeeDto employeeDto);
+    void CreateLog(EmployeeDto employeeDto, LogAction logAction);
 }
